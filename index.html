@@ -15,6 +15,32 @@
 </script>
 </head>
 <body>
+
+  <!-- Banner de Consentimiento -->
+<div id="cookie-consent-banner" style="display: none;">
+  <div class="cookie-consent-content">
+      <p>Este sitio web usa cookies para mejorar la experiencia del usuario. ¿Cómo te gustaría proceder?</p>
+      <button id="accept-all">Aceptar todas</button>
+      <button id="deny-all">Denegar todas</button>
+      <button id="choose-preferences">Elegir preferencias</button>
+  </div>
+</div>
+
+<!-- Modal de Resumen de Consentimiento -->
+<div id="consent-summary-modal" style="display: none;">
+  <div class="modal-content">
+      <h2>Resumen de Consentimiento</h2>
+      <p><strong>Publicidad:</strong> <span id="ad_storage-summary">No configurado</span></p>
+      <p><strong>Datos del Usuario:</strong> <span id="ad_user_data-summary">No configurado</span></p>
+      <p><strong>Personalización:</strong> <span id="ad_personalization-summary">No configurado</span></p>
+      <p><strong>Estadísticas:</strong> <span id="analytics_storage-summary">No configurado</span></p>
+      <p><strong>Funcionalidad:</strong> <span id="functionality_storage-summary">No configurado</span></p>
+      <p><strong>Personalización:</strong> <span id="personalization_storage-summary">No configurado</span></p>
+      <p><strong>Seguridad:</strong> <span id="security_storage-summary">No configurado</span></p>
+      <button id="close-summary">Cerrar</button>
+  </div>
+</div>
+
   <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WGDK3KGZ"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
