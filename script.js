@@ -135,7 +135,7 @@ function savePreferences() {
 function activateScripts(analytics = false, ads = false) {
   if (analytics) {
       // Cargar Google Analytics
-      gtag('config', 'YOUR_MEASUREMENT_ID');
+      gtag('config', 'G-9TP333H8JQ');
   }
 
 }
