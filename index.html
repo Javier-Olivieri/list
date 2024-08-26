@@ -21,9 +21,11 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
+
     .slider-button:checked {
       background-color: #4CAF50;
     }
+
     .slider-button:before {
       content: "";
       position: absolute;
@@ -35,6 +37,7 @@
       left: 2px;
       transition: transform 0.3s;
     }
+
     .slider-button:checked:before {
       transform: translateX(25px);
     }
@@ -74,148 +77,148 @@
       <ul class="toDoList">
       </ul>
     </div>
-</section>
+  </section>
 
-<div id="content"></div>
+  <div id="content"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
-<script>
-  function loadGoogleAnalytics() {
-    // Cargar el script de Google Analytics
-    var script = document.createElement('script');
-    script.src = "https://www.googletagmanager.com/gtag/js?id=G-KMDRNGZ9LR";
-    script.async = true;
-    document.head.appendChild(script);
+  <!-- Script de Google Analytics -->
+  <script>
+    function loadGoogleAnalytics() {
+      var script = document.createElement('script');
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-KMDRNGZ9LR";
+      script.async = true;
+      document.head.appendChild(script);
 
-    script.onload = function() {
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-KMDRNGZ9LR');
-    };
-  }
+      script.onload = function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-KMDRNGZ9LR');
+      };
+    }
+  </script>
 
-  window.cookieconsent.initialise({
-    container: document.getElementById("content"),
-    palette: {
-      popup: { background: "#f4f4f4", text: "#333" },
-      button: { background: "#4CAF50", text: "#fff" }
-    },
-    theme: "block",
-    position: "bottom",
-    type: "opt-in",
-    revokable: true,
-    onStatusChange: function(status) {
-      var analyticsConsent = document.getElementById('analytics-cookies').checked;
+  <!-- Cookie Consent -->
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+  <script>
+    window.cookieconsent.initialise({
+      container: document.getElementById("content"),
+      palette: {
+        popup: { background: "#f4f4f4", text: "#333" },
+        button: { background: "#4CAF50", text: "#fff" }
+      },
+      theme: "block",
+      position: "bottom",
+      type: "opt-in",
+      revokable: true,
+      onStatusChange: function (status) {
+        var analyticsConsent = document.getElementById('analytics-cookies').checked;
 
-      if (this.hasConsented()) {
+        if (this.hasConsented() && analyticsConsent) {
+          loadGoogleAnalytics();
+        }
+      },
+      content: {
+        header: '¡Cookies en este sitio!',
+        message: 'Usamos cookies para mejorar su experiencia. Seleccione su preferencia.',
+        dismiss: 'Aceptar todas',
+        allow: 'Permitir cookies',
+        deny: 'Denegar cookies',
+        link: 'Más información',
+        href: 'https://www.cookiesandyou.com',
+        policy: 'Política de Cookies',
+        target: '_blank',
+        categories: {
+          necessary: 'Cookies necesarias',
+          analytics: 'Cookies de análisis',
+          marketing: 'Cookies de marketing'
+        }
+      },
+      elements: {
+        header: '<span class="cc-header">{{header}}</span>',
+        message: '<span id="cookieconsent:desc" class="cc-message">{{message}}</span>',
+        messagelink: '<span id="cookieconsent:desc" class="cc-message">{{message}} <a href="{{href}}" target="{{target}}" class="cc-link">{{link}}</a></span>',
+        dismiss: '<a aria-label="dismiss cookie message" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
+        allow: '<a aria-label="allow cookies" tabindex="0" class="cc-btn cc-allow">{{allow}}</a>',
+        deny: '<a aria-label="deny cookies" tabindex="0" class="cc-btn cc-deny">{{deny}}</a>',
+        close: '<span aria-label="dismiss cookie message" tabindex="0" class="cc-close">{{close}}</span>',
+        categories: `
+          <div>
+            <label>
+              <input type="checkbox" id="necessary-cookies" checked disabled>
+              {{categories.necessary}}
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="checkbox" id="analytics-cookies">
+              {{categories.analytics}}
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="checkbox" id="marketing-cookies">
+              {{categories.marketing}}
+            </label>
+          </div>
+        `,
+        categories_buttons: `
+          <div class="cc-compliance cc-highlight">
+            <a aria-label="save cookie preferences" tabindex="0" class="cc-btn cc-save">Guardar preferencias</a>
+          </div>
+        `
+      },
+      compliance: {
+        'opt-in': `
+          <div class="cc-compliance">
+            <div class="cc-categories">
+              {{categories}}
+            </div>
+            {{categories_buttons}}
+          </div>
+        `,
+        'opt-out': '<div class="cc-compliance cc-highlight">{{dismiss}}</div>',
+        'info': '<div class="cc-compliance">{{dismiss}}</div>',
+      },
+      layout: 'basic',
+      layouts: {
+        'basic': '<div class="cc-compliance cc-highlight">{{allow}}{{deny}}{{dismiss}}</div>',
+      },
+      cookie: {
+        name: 'cookieconsent_status',
+        path: '/',
+        domain: '',
+        expiryDays: 365,
+        secure: true
+      },
+      law: {
+        regionalLaw: true,
+      },
+      location: true,
+      revokeBtn: '<div class="cc-revoke">Revisar preferencias de cookies</div>',
+      animateRevokable: true,
+      dismissOnScroll: false,
+      dismissOnTimeout: false,
+      dismissOnWindowClick: false,
+      autoOpen: true,
+      autoAttach: true,
+      onInitialise: function (status) {
+        var type = this.options.type;
+        var didConsent = this.hasConsented();
+        var analyticsConsent = document.getElementById('analytics-cookies').checked;
+
+        if (type == 'opt-in' && didConsent && analyticsConsent) {
+          loadGoogleAnalytics();
+        }
+      },
+      onPopupClose: function () {
+        var analyticsConsent = document.getElementById('analytics-cookies').checked;
         if (analyticsConsent) {
           loadGoogleAnalytics();
         }
-      }
-    },
-    content: {
-      header: '¡Cookies en este sitio!',
-      message: 'Usamos cookies para mejorar su experiencia. Seleccione su preferencia.',
-      dismiss: 'Aceptar todas',
-      allow: 'Permitir cookies',
-      deny: 'Denegar cookies',
-      link: 'Más información',
-      href: 'https://www.cookiesandyou.com',
-      policy: 'Política de Cookies',
-      target: '_blank',
-      categories: {
-        necessary: 'Cookies necesarias',
-        analytics: 'Cookies de análisis',
-        marketing: 'Cookies de marketing'
-      }
-    },
-    elements: {
-      header: '<span class="cc-header">{{header}}</span>',
-      message: '<span id="cookieconsent:desc" class="cc-message">{{message}}</span>',
-      messagelink: '<span id="cookieconsent:desc" class="cc-message">{{message}} <a href="{{href}}" target="{{target}}" class="cc-link">{{link}}</a></span>',
-      dismiss: '<a aria-label="dismiss cookie message" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
-      allow: '<a aria-label="allow cookies" tabindex="0" class="cc-btn cc-allow">{{allow}}</a>',
-      deny: '<a aria-label="deny cookies" tabindex="0" class="cc-btn cc-deny">{{deny}}</a>',
-      close: '<span aria-label="dismiss cookie message" tabindex="0" class="cc-close">{{close}}</span>',
-      categories: `
-        <div>
-          <label>
-            <input type="checkbox" id="necessary-cookies" checked disabled>
-            {{categories.necessary}}
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" id="analytics-cookies">
-            {{categories.analytics}}
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" id="marketing-cookies">
-            {{categories.marketing}}
-          </label>
-        </div>
-      `,
-      categories_buttons: `
-        <div class="cc-compliance cc-highlight">
-          <a aria-label="save cookie preferences" tabindex="0" class="cc-btn cc-save">Guardar preferencias</a>
-        </div>
-      `
-    },
-    compliance: {
-      'opt-in': `
-        <div class="cc-compliance">
-          <div class="cc-categories">
-            {{categories}}
-          </div>
-          {{categories_buttons}}
-        </div>
-      `,
-      'opt-out': '<div class="cc-compliance cc-highlight">{{dismiss}}</div>',
-      'info': '<div class="cc-compliance">{{dismiss}}</div>',
-    },
-    layout: 'basic',
-    layouts: {
-      'basic': '<div class="cc-compliance cc-highlight">{{allow}}{{deny}}{{dismiss}}</div>',
-    },
-    cookie: {
-      name: 'cookieconsent_status',
-      path: '/',
-      domain: '',
-      expiryDays: 365,
-      secure: true
-    },
-    law: {
-      regionalLaw: true,
-    },
-    location: true,
-    revokeBtn: '<div class="cc-revoke">Revisar preferencias de cookies</div>',
-    animateRevokable: true,
-    dismissOnScroll: false,
-    dismissOnTimeout: false,
-    dismissOnWindowClick: false,
-    autoOpen: true,
-    autoAttach: true,
-    onInitialise: function(status) {
-      var type = this.options.type;
-      var didConsent = this.hasConsented();
-      var analyticsConsent = document.getElementById('analytics-cookies').checked;
-
-      if (type == 'opt-in' && didConsent && analyticsConsent) {
-        loadGoogleAnalytics();
-      }
-    },
-    onPopupClose: function() {
-      var analyticsConsent = document.getElementById('analytics-cookies').checked;
-      if (analyticsConsent) {
-        loadGoogleAnalytics();
-      }
-    },
-  });
-</script>
-
+      },
+    });
+  </script>
 
   <script src="./script.js"></script>
 </body>
