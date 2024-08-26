@@ -1,174 +1,185 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KGBZHBMP');</script>
-    <!-- End Google Tag Manager -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-KGBZHBMP');</script>
+  <!-- End Google Tag Manager -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
   <link rel="stylesheet" href="./style.css">
   <style>
-    #cookie-banner, #cookie-preferences {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        background-color: #333;
-        color: #fff;
-        padding: 15px;
-        text-align: center;
+    #cookie-banner,
+    #cookie-preferences {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
     }
-    
-    #cookie-banner button, #cookie-preferences button {
-        margin: 5px;
-        padding: 10px 15px;
-        background-color: #0066cc;
-        border: none;
-        color: white;
-        cursor: pointer;
+
+    #cookie-banner button,
+    #cookie-preferences button {
+      margin: 5px;
+      padding: 10px 15px;
+      background-color: #0066cc;
+      border: none;
+      color: white;
+      cursor: pointer;
     }
-    
+
     #cookie-settings {
-        position: fixed;
-        bottom: 60px; /* Ajusta para que esté visible sobre el banner */
-        right: 15px;
-        background-color: #0066cc;
-        color: #fff;
-        padding: 10px 15px;
-        cursor: pointer;
+      position: fixed;
+      bottom: 60px;
+      /* Ajusta para que esté visible sobre el banner */
+      right: 15px;
+      background-color: #0066cc;
+      color: #fff;
+      padding: 10px 15px;
+      cursor: pointer;
     }
-    </style>
-    
+  </style>
+
 </head>
+
 <body>
   <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGBZHBMP"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGBZHBMP" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div id="content">
     <section class="container">
-        <div class="heading">
-          <img class="heading__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/756881/laptop.svg">
-          <h1 class="heading__title">Tareas</h1>
-        </div>
-        <form class="form">
-          <div>
-            <label class="form__label" for="todo">~ Necesito hacer ~</label>
-            <input class="form__input" type="text" id="todo" name="to-do" size="30" autocomplete="off" required>
-            <button class="button"><span>Anotar</span></button>
-          </div>
-        </form>
+      <div class="heading">
+        <img class="heading__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/756881/laptop.svg">
+        <h1 class="heading__title">Tareas</h1>
+      </div>
+      <form class="form">
         <div>
-          <ul class="toDoList">
-          </ul>
+          <label class="form__label" for="todo">~ Necesito hacer ~</label>
+          <input class="form__input" type="text" id="todo" name="to-do" size="30" autocomplete="off" required>
+          <button class="button"><span>Anotar</span></button>
         </div>
-      </section>
-    
-      
-    
-      <script src="./script.js"></script>
+      </form>
+      <div>
+        <ul class="toDoList">
+        </ul>
+      </div>
+    </section>
+
+
+
+    <script src="./script.js"></script>
   </div>
 
   <div id="cookie-banner">
     <p>Este sitio utiliza cookies para mejorar tu experiencia. ¿Qué deseas hacer?</p>
     <div>
-        <button id="accept-all">Permitir todas</button>
-        <button id="deny-all">Denegar todas</button>
-        <button id="choose-cookies">Elegir preferencias</button>
+      <button id="accept-all">Permitir todas</button>
+      <button id="deny-all">Denegar todas</button>
+      <button id="choose-cookies">Elegir preferencias</button>
     </div>
-</div>
+  </div>
 
-<div id="cookie-preferences" style="display:none;">
+  <div id="cookie-preferences" style="display:none;">
     <h2>Preferencias de cookies</h2>
     <p>Elige las cookies que deseas aceptar:</p>
     <label>
-        <input type="checkbox" id="analytics-cookies">
-        Cookies de análisis
+      <input type="checkbox" id="analytics-cookies">
+      Cookies de análisis
     </label>
     <label>
-        <input type="checkbox" id="ads-cookies">
-        Cookies de publicidad
+      <input type="checkbox" id="ads-cookies">
+      Cookies de publicidad
     </label>
     <div>
-        <button id="save-preferences">Guardar preferencias</button>
+      <button id="save-preferences">Guardar preferencias</button>
     </div>
-</div>
+  </div>
 
-<div id="cookie-settings" onclick="showCookiePreferences()">Preferencias de Cookies</div>
-<script>
-  document.getElementById('accept-all').addEventListener('click', function() {
+  <div id="cookie-settings" onclick="showCookiePreferences()">Preferencias de Cookies</div>
+  <script>
+    document.getElementById('accept-all').addEventListener('click', function () {
       setCookiePreferences(true, true);
       sendConsentToGTM(true, true);
       hideBanner();
-  });
-  
-  document.getElementById('deny-all').addEventListener('click', function() {
+    });
+
+    document.getElementById('deny-all').addEventListener('click', function () {
       setCookiePreferences(false, false);
       sendConsentToGTM(false, false);
       hideBanner();
-  });
-  
-  document.getElementById('choose-cookies').addEventListener('click', function() {
+    });
+
+    document.getElementById('choose-cookies').addEventListener('click', function () {
       hideBanner();
       showCookiePreferences();
-  });
-  
-  document.getElementById('save-preferences').addEventListener('click', function() {
+    });
+
+    document.getElementById('save-preferences').addEventListener('click', function () {
       const analytics = document.getElementById('analytics-cookies').checked;
       const ads = document.getElementById('ads-cookies').checked;
       setCookiePreferences(analytics, ads);
       sendConsentToGTM(analytics, ads);
       hideBanner();
-  });
-  
-  function setCookiePreferences(analytics, ads) {
+    });
+
+    function setCookiePreferences(analytics, ads) {
       // Guardar las preferencias en cookies o localStorage
       localStorage.setItem('analyticsCookies', analytics);
       localStorage.setItem('adsCookies', ads);
-  }
-  
-  function sendConsentToGTM(analytics, ads) {
+    }
+
+    function sendConsentToGTM(analytics, ads) {
       // Enviar eventos a GTM para activar las etiquetas correspondientes
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-          'event': 'cookieConsent',
-          'analyticsCookies': analytics,
-          'adsCookies': ads
+        'event': 'cookieConsent',
+        'analyticsCookies': localStorage.getItem('analyticsCookies') === 'true',
+        'adsCookies': localStorage.getItem('adsCookies') === 'true'
       });
-  }
-  
-  function hideBanner() {
+
+    }
+
+    function hideBanner() {
       document.getElementById('cookie-banner').style.display = 'none';
       document.getElementById('cookie-preferences').style.display = 'none';
-  }
-  
-  function showCookiePreferences() {
+    }
+
+    function showCookiePreferences() {
       const analytics = localStorage.getItem('analyticsCookies') === 'true';
       const ads = localStorage.getItem('adsCookies') === 'true';
-      
+
       document.getElementById('analytics-cookies').checked = analytics;
       document.getElementById('ads-cookies').checked = ads;
-      
+
       document.getElementById('cookie-preferences').style.display = 'block';
-  }
-  
-  // Verificar si el usuario ya ha guardado preferencias
-  window.onload = function() {
+    }
+
+    // Verificar si el usuario ya ha guardado preferencias
+    window.onload = function () {
       const analytics = localStorage.getItem('analyticsCookies') === 'true';
       const ads = localStorage.getItem('adsCookies') === 'true';
-      
+
       // Enviar eventos a GTM para activar las etiquetas correspondientes
       if (analytics || ads) {
-          sendConsentToGTM(analytics, ads);
-          hideBanner();
+        sendConsentToGTM(analytics, ads);
+        hideBanner();
       }
-  };
+    };
   </script>
-  
-  
+
+
 
 </body>
+
 </html>
