@@ -1,226 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista</title>
+  <title>Consentimiento de Cookies</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
   <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <style>
-    /* Estilos personalizados para botones deslizables */
-    .slider-button {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 50px;
-      height: 25px;
-      background-color: #ccc;
-      border-radius: 25px;
-      position: relative;
-      outline: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
+    #cookie-banner, #cookie-preferences {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #333;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
     }
-
-    .slider-button:checked {
-      background-color: #4CAF50;
+    
+    #cookie-banner button, #cookie-preferences button {
+        margin: 5px;
+        padding: 10px 15px;
+        background-color: #0066cc;
+        border: none;
+        color: white;
+        cursor: pointer;
     }
-
-    .slider-button:before {
-      content: "";
-      position: absolute;
-      width: 21px;
-      height: 21px;
-      background-color: #fff;
-      border-radius: 50%;
-      top: 2px;
-      left: 2px;
-      transition: transform 0.3s;
+    
+    #cookie-settings {
+        position: fixed;
+        bottom: 60px; /* Ajusta para que esté visible sobre el banner */
+        right: 15px;
+        background-color: #0066cc;
+        color: #fff;
+        padding: 10px 15px;
+        cursor: pointer;
     }
-
-    .slider-button:checked:before {
-      transform: translateX(25px);
-    }
-
-    /* Estilos para la ventana emergente */
-    .cc-window {
-      background-color: #f4f4f4;
-      color: #333;
-      border-radius: 5px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .cc-compliance {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 10px;
-    }
-  </style>
-
+    </style>
 </head>
-
 <body>
-  <section class="container">
-    <div class="heading">
-      <img class="heading__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/756881/laptop.svg">
-      <h1 class="heading__title">Tareas</h1>
-    </div>
-    <form class="form">
-      <div>
-        <label class="form__label" for="todo">~ Necesito hacer ~</label>
-        <input class="form__input" type="text" id="todo" name="to-do" size="30" autocomplete="off" required>
-        <button class="button"><span>Anotar</span></button>
-      </div>
-    </form>
+  <div id="content">
+    <section class="container">
+        <div class="heading">
+          <img class="heading__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/756881/laptop.svg">
+          <h1 class="heading__title">Tareas</h1>
+        </div>
+        <form class="form">
+          <div>
+            <label class="form__label" for="todo">~ Necesito hacer ~</label>
+            <input class="form__input" type="text" id="todo" name="to-do" size="30" autocomplete="off" required>
+            <button class="button"><span>Anotar</span></button>
+          </div>
+        </form>
+        <div>
+          <ul class="toDoList">
+          </ul>
+        </div>
+      </section>
+    
+      
+    
+      <script src="./script.js"></script>
+  </div>
+
+  <div id="cookie-banner">
+    <p>Este sitio utiliza cookies para mejorar tu experiencia. ¿Qué deseas hacer?</p>
     <div>
-      <ul class="toDoList">
-      </ul>
+        <button id="accept-all">Permitir todas</button>
+        <button id="deny-all">Denegar todas</button>
+        <button id="choose-cookies">Elegir preferencias</button>
     </div>
-  </section>
+</div>
 
-  <div id="content"></div>
+<div id="cookie-preferences" style="display:none;">
+    <h2>Preferencias de cookies</h2>
+    <p>Elige las cookies que deseas aceptar:</p>
+    <label>
+        <input type="checkbox" id="analytics-cookies">
+        Cookies de análisis
+    </label>
+    <label>
+        <input type="checkbox" id="ads-cookies">
+        Cookies de publicidad
+    </label>
+    <div>
+        <button id="save-preferences">Guardar preferencias</button>
+    </div>
+</div>
 
-  <!-- Script de Google Analytics -->
-  <script>
-    function loadGoogleAnalytics() {
-      var script = document.createElement('script');
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-KMDRNGZ9LR";
-      script.async = true;
-      document.head.appendChild(script);
-
-      script.onload = function () {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-KMDRNGZ9LR');
-      };
-    }
+<div id="cookie-settings" onclick="showCookiePreferences()">Preferencias de Cookies</div>
+<script>
+  document.getElementById('accept-all').addEventListener('click', function() {
+      setCookiePreferences(true, true);
+      sendConsentToGTM(true, true);
+      hideBanner();
+  });
+  
+  document.getElementById('deny-all').addEventListener('click', function() {
+      setCookiePreferences(false, false);
+      sendConsentToGTM(false, false);
+      hideBanner();
+  });
+  
+  document.getElementById('choose-cookies').addEventListener('click', function() {
+      hideBanner();
+      showCookiePreferences();
+  });
+  
+  document.getElementById('save-preferences').addEventListener('click', function() {
+      const analytics = document.getElementById('analytics-cookies').checked;
+      const ads = document.getElementById('ads-cookies').checked;
+      setCookiePreferences(analytics, ads);
+      sendConsentToGTM(analytics, ads);
+      hideBanner();
+  });
+  
+  function setCookiePreferences(analytics, ads) {
+      // Guardar las preferencias en cookies o localStorage
+      localStorage.setItem('analyticsCookies', analytics);
+      localStorage.setItem('adsCookies', ads);
+  }
+  
+  function sendConsentToGTM(analytics, ads) {
+      // Enviar eventos a GTM para activar las etiquetas correspondientes
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+          'event': 'cookieConsent',
+          'analyticsCookies': analytics,
+          'adsCookies': ads
+      });
+  }
+  
+  function hideBanner() {
+      document.getElementById('cookie-banner').style.display = 'none';
+      document.getElementById('cookie-preferences').style.display = 'none';
+  }
+  
+  function showCookiePreferences() {
+      const analytics = localStorage.getItem('analyticsCookies') === 'true';
+      const ads = localStorage.getItem('adsCookies') === 'true';
+      
+      document.getElementById('analytics-cookies').checked = analytics;
+      document.getElementById('ads-cookies').checked = ads;
+      
+      document.getElementById('cookie-preferences').style.display = 'block';
+  }
+  
+  // Verificar si el usuario ya ha guardado preferencias
+  window.onload = function() {
+      const analytics = localStorage.getItem('analyticsCookies') === 'true';
+      const ads = localStorage.getItem('adsCookies') === 'true';
+      
+      // Enviar eventos a GTM para activar las etiquetas correspondientes
+      if (analytics || ads) {
+          sendConsentToGTM(analytics, ads);
+          hideBanner();
+      }
+  };
   </script>
+  
+  
 
-  <!-- Cookie Consent -->
-  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
-  <script>
-    window.cookieconsent.initialise({
-      container: document.getElementById("content"),
-      palette: {
-        popup: { background: "#f4f4f4", text: "#333" },
-        button: { background: "#4CAF50", text: "#fff" }
-      },
-      theme: "block",
-      position: "bottom",
-      type: "opt-in",
-      revokable: true,
-      onStatusChange: function (status) {
-        var analyticsConsent = document.getElementById('analytics-cookies').checked;
-
-        if (this.hasConsented() && analyticsConsent) {
-          loadGoogleAnalytics();
-        }
-      },
-      content: {
-        header: '¡Cookies en este sitio!',
-        message: 'Usamos cookies para mejorar su experiencia. Seleccione su preferencia.',
-        dismiss: 'Aceptar todas',
-        allow: 'Permitir cookies',
-        deny: 'Denegar cookies',
-        link: 'Más información',
-        href: 'https://www.cookiesandyou.com',
-        policy: 'Política de Cookies',
-        target: '_blank',
-        categories: {
-          necessary: 'Cookies necesarias',
-          analytics: 'Cookies de análisis',
-          marketing: 'Cookies de marketing'
-        }
-      },
-      elements: {
-        header: '<span class="cc-header">{{header}}</span>',
-        message: '<span id="cookieconsent:desc" class="cc-message">{{message}}</span>',
-        messagelink: '<span id="cookieconsent:desc" class="cc-message">{{message}} <a href="{{href}}" target="{{target}}" class="cc-link">{{link}}</a></span>',
-        dismiss: '<a aria-label="dismiss cookie message" tabindex="0" class="cc-btn cc-dismiss">{{dismiss}}</a>',
-        allow: '<a aria-label="allow cookies" tabindex="0" class="cc-btn cc-allow">{{allow}}</a>',
-        deny: '<a aria-label="deny cookies" tabindex="0" class="cc-btn cc-deny">{{deny}}</a>',
-        close: '<span aria-label="dismiss cookie message" tabindex="0" class="cc-close">{{close}}</span>',
-        categories: `
-          <div>
-            <label>
-              <input type="checkbox" id="necessary-cookies" checked disabled>
-              {{categories.necessary}}
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="checkbox" id="analytics-cookies">
-              {{categories.analytics}}
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="checkbox" id="marketing-cookies">
-              {{categories.marketing}}
-            </label>
-          </div>
-        `,
-        categories_buttons: `
-          <div class="cc-compliance cc-highlight">
-            <a aria-label="save cookie preferences" tabindex="0" class="cc-btn cc-save">Guardar preferencias</a>
-          </div>
-        `
-      },
-      compliance: {
-        'opt-in': `
-          <div class="cc-compliance">
-            <div class="cc-categories">
-              {{categories}}
-            </div>
-            {{categories_buttons}}
-          </div>
-        `,
-        'opt-out': '<div class="cc-compliance cc-highlight">{{dismiss}}</div>',
-        'info': '<div class="cc-compliance">{{dismiss}}</div>',
-      },
-      layout: 'basic',
-      layouts: {
-        'basic': '<div class="cc-compliance cc-highlight">{{allow}}{{deny}}{{dismiss}}</div>',
-      },
-      cookie: {
-        name: 'cookieconsent_status',
-        path: '/',
-        domain: '',
-        expiryDays: 365,
-        secure: true
-      },
-      law: {
-        regionalLaw: true,
-      },
-      location: true,
-      revokeBtn: '<div class="cc-revoke">Revisar preferencias de cookies</div>',
-      animateRevokable: true,
-      dismissOnScroll: false,
-      dismissOnTimeout: false,
-      dismissOnWindowClick: false,
-      autoOpen: true,
-      autoAttach: true,
-      onInitialise: function (status) {
-        var type = this.options.type;
-        var didConsent = this.hasConsented();
-        var analyticsConsent = document.getElementById('analytics-cookies').checked;
-
-        if (type == 'opt-in' && didConsent && analyticsConsent) {
-          loadGoogleAnalytics();
-        }
-      },
-      onPopupClose: function () {
-        var analyticsConsent = document.getElementById('analytics-cookies').checked;
-        if (analyticsConsent) {
-          loadGoogleAnalytics();
-        }
-      },
-    });
-  </script>
-
-  <script src="./script.js"></script>
 </body>
-
 </html>

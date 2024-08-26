@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>#cookie-banner, #cookie-preferences {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #333;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+    }
+    
+    #cookie-banner button, #cookie-preferences button {
+        margin: 5px;
+        padding: 10px 15px;
+        background-color: #0066cc;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }</style>
+</head>
+<body>
+    <div id="cookie-banner">
+        <p>Este sitio utiliza cookies para mejorar tu experiencia. ¿Qué deseas hacer?</p>
+        <div>
+            <button id="accept-all">Permitir todas</button>
+            <button id="deny-all">Denegar todas</button>
+            <button id="choose-cookies">Elegir preferencias</button>
+        </div>
+    </div>
+    <div id="cookie-preferences" style="display:none;">
+        <h2>Preferencias de cookies</h2>
+        <p>Elige las cookies que deseas aceptar:</p>
+        <label>
+            <input type="checkbox" id="analytics-cookies">
+            Cookies de análisis
+        </label>
+        <label>
+            <input type="checkbox" id="ads-cookies">
+            Cookies de publicidad
+        </label>
+        <div>
+            <button id="save-preferences">Guardar preferencias</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('accept-all').addEventListener('click', function() {
+    setCookiePreferences(true, true);
+    executeScripts(true, true);
+    hideBanner();
+});
+
+document.getElementById('deny-all').addEventListener('click', function() {
+    setCookiePreferences(false, false);
+    executeScripts(false, false);
+    hideBanner();
+});
+
+document.getElementById('choose-cookies').addEventListener('click', function() {
+    document.getElementById('cookie-banner').style.display = 'none';
+    document.getElementById('cookie-preferences').style.display = 'block';
+});
+
+document.getElementById('save-preferences').addEventListener('click', function() {
+    const analytics = document.getElementById('analytics-cookies').checked;
+    const ads = document.getElementById('ads-cookies').checked;
+    setCookiePreferences(analytics, ads);
+    executeScripts(analytics, ads);
+    hideBanner();
+});
+
+function setCookiePreferences(analytics, ads) {
+    // Guardar las preferencias en cookies o localStorage
+    localStorage.setItem('analyticsCookies', analytics);
+    localStorage.setItem('adsCookies', ads);
+}
+
+function executeScripts(analytics, ads) {
+    if (analytics) {
+        // Cargar Google Analytics
+        loadGoogleAnalytics();
+    }
+    if (ads) {
+        // Cargar Google Ads
+        loadGoogleAds();
+    }
+}
+
+function hideBanner() {
+    document.getElementById('cookie-banner').style.display = 'none';
+    document.getElementById('cookie-preferences').style.display = 'none';
+}
+
+function loadGoogleAnalytics() {
+    // Código para cargar Google Analytics
+    // Aquí iría el script de Google Analytics
+}
+
+function loadGoogleAds() {
+    // Código para cargar Google Ads
+    // Aquí iría el script de Google Ads
+}
+
+// Verificar si el usuario ya ha guardado preferencias
+window.onload = function() {
+    const analytics = localStorage.getItem('analyticsCookies') === 'true';
+    const ads = localStorage.getItem('adsCookies') === 'true';
+    if (analytics || ads) {
+        executeScripts(analytics, ads);
+        hideBanner();
+    }
+};
+
+    </script>
+</body>
+</html>
+  
