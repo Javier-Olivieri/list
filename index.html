@@ -99,75 +99,91 @@
 
 <div id="cookie-settings" onclick="showCookiePreferences()">Preferencias de Cookies</div>
 <script>
-  document.getElementById('accept-all').addEventListener('click', function() {
-      setCookiePreferences(true, true);
-      sendConsentToGTM(true, true);
-      hideBanner();
-  });
+    document.getElementById('accept-all').addEventListener('click', function() {
+        setCookiePreferences(true, true);
+        sendConsentToGTM(true, true);
+        hideBanner();
+    });
   
-  document.getElementById('deny-all').addEventListener('click', function() {
-      setCookiePreferences(false, false);
-      sendConsentToGTM(false, false);
-      hideBanner();
-  });
+    document.getElementById('deny-all').addEventListener('click', function() {
+        setCookiePreferences(false, false);
+        sendConsentToGTM(false, false);
+        deleteAnalyticsCookies(); // Eliminar cookies de Google Analytics
+        hideBanner();
+    });
   
-  document.getElementById('choose-cookies').addEventListener('click', function() {
-      hideBanner();
-      showCookiePreferences();
-  });
+    document.getElementById('choose-cookies').addEventListener('click', function() {
+        hideBanner();
+        showCookiePreferences();
+    });
   
-  document.getElementById('save-preferences').addEventListener('click', function() {
-      const analytics = document.getElementById('analytics-cookies').checked;
-      const ads = document.getElementById('ads-cookies').checked;
-      setCookiePreferences(analytics, ads);
-      sendConsentToGTM(analytics, ads);
-      hideBanner();
-  });
+    document.getElementById('save-preferences').addEventListener('click', function() {
+        const analytics = document.getElementById('analytics-cookies').checked;
+        const ads = document.getElementById('ads-cookies').checked;
+        setCookiePreferences(analytics, ads);
+        sendConsentToGTM(analytics, ads);
+        if (!analytics) {
+            deleteAnalyticsCookies(); // Eliminar cookies de Google Analytics si se desactivan
+        }
+        hideBanner();
+    });
   
-  function setCookiePreferences(analytics, ads) {
-      // Guardar las preferencias en cookies o localStorage
-      localStorage.setItem('analyticsCookies', analytics);
-      localStorage.setItem('adsCookies', ads);
-  }
+    function setCookiePreferences(analytics, ads) {
+        // Guardar las preferencias en cookies o localStorage
+        localStorage.setItem('analyticsCookies', analytics);
+        localStorage.setItem('adsCookies', ads);
+    }
   
-  function sendConsentToGTM(analytics, ads) {
-      // Enviar eventos a GTM para activar las etiquetas correspondientes
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-          'event': 'cookieConsent',
-          'analyticsCookies': analytics,
-          'adsCookies': ads
-      });
-  }
+    function sendConsentToGTM(analytics, ads) {
+        // Enviar eventos a GTM para activar las etiquetas correspondientes
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'event': 'cookieConsent',
+            'analyticsCookies': analytics,
+            'adsCookies': ads
+        });
+    }
   
-  function hideBanner() {
-      document.getElementById('cookie-banner').style.display = 'none';
-      document.getElementById('cookie-preferences').style.display = 'none';
-  }
+    function deleteAnalyticsCookies() {
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            if (name.trim().startsWith('_ga') || name.trim().startsWith('_gid') || name.trim().startsWith('_gat')) {
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+            }
+        }
+    }
   
-  function showCookiePreferences() {
-      const analytics = localStorage.getItem('analyticsCookies') === 'true';
-      const ads = localStorage.getItem('adsCookies') === 'true';
-      
-      document.getElementById('analytics-cookies').checked = analytics;
-      document.getElementById('ads-cookies').checked = ads;
-      
-      document.getElementById('cookie-preferences').style.display = 'block';
-  }
+    function hideBanner() {
+        document.getElementById('cookie-banner').style.display = 'none';
+        document.getElementById('cookie-preferences').style.display = 'none';
+    }
   
-  // Verificar si el usuario ya ha guardado preferencias
-  window.onload = function() {
-      const analytics = localStorage.getItem('analyticsCookies') === 'true';
-      const ads = localStorage.getItem('adsCookies') === 'true';
-      
-      // Enviar eventos a GTM para activar las etiquetas correspondientes
-      if (analytics || ads) {
-          sendConsentToGTM(analytics, ads);
-          hideBanner();
-      }
-  };
-</script>
-
+    function showCookiePreferences() {
+        const analytics = localStorage.getItem('analyticsCookies') === 'true';
+        const ads = localStorage.getItem('adsCookies') === 'true';
+  
+        document.getElementById('analytics-cookies').checked = analytics;
+        document.getElementById('ads-cookies').checked = ads;
+  
+        document.getElementById('cookie-preferences').style.display = 'block';
+    }
+  
+    // Verificar si el usuario ya ha guardado preferencias
+    window.onload = function() {
+        const analytics = localStorage.getItem('analyticsCookies') === 'true';
+        const ads = localStorage.getItem('adsCookies') === 'true';
+  
+        // Enviar eventos a GTM para activar las etiquetas correspondientes
+        if (analytics || ads) {
+            sendConsentToGTM(analytics, ads);
+            hideBanner();
+        }
+    };
+  </script>
+  
   
 
 </body>
